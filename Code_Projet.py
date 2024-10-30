@@ -19,7 +19,8 @@ B = 1
 
 # dimensionless quantities
 
-B_star = B/(J*mu)
+B_star = 0
+T_star = 0.01
 
 
 
@@ -49,11 +50,13 @@ def initial_energy(initial_state_matrix):  # initial_state is a nxn np array mat
     
     return fni_contribution + magnetic_contribution
 
+state = np.random.choice([-1, 1],size = (n,n))
 res = initial_energy(np.random.randint(2,size = (n,n)))
 
 
 
-def calculate_delta_energy(state_matrix, current_energy, indexes, orientation):
+
+def calculate_delta_energy(state_matrix, indexes, orientation):
     
     i,j = indexes
     S = state_matrix
@@ -61,11 +64,8 @@ def calculate_delta_energy(state_matrix, current_energy, indexes, orientation):
     
     neigbors_config = S[i-1,j] + S[(i+1)%n,j] + S[i,j-1] + S[i,(j+1)%n]
     if orientation == -1 :
-        delta_energy += -neigbors_config + 2*B_star
+        delta_energy = -neigbors_config + 2*B_star
     else:
-        delta_energy += neigbors_config - 2*B_star
+        delta_energy = neigbors_config - 2*B_star
     
     return delta_energy
-
-    
-    
